@@ -5,7 +5,6 @@ metadata:
     app: hello-gateway
     version: v1
   name: hello-gateway
-  namespace: istio-ingress
 spec:
   gatewayClassName: istio
   listeners:
