@@ -1,0 +1,75 @@
+---
+# 1. ServiceEntry - 定義外部服務
+apiVersion: networking.istio.io/v1
+kind: ServiceEntry
+metadata:
+  name: egress-se
+spec:
+  hosts:
+  - redhat.com
+  ports:
+  - number: 80
+    name: http-port
+    protocol: HTTP
+  location: MESH_EXTERNAL
+  resolution: DNS
+---
+# 2. Gateway - 定義 egress gateway
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: egress-gw
+spec:
+  selector:
+    istio: egressgateway
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - redhat.com
+---
+# 3. DestinationRule - 定義 egress gateway 的子集
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: egress-dr
+spec:
+  host: istio-egressgateway.${NAMESPACE}.svc.cluster.local
+  subsets:
+  - name: rh-docs
+---
+# 4. VirtualService - 定義路由規則
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: egress-vs
+spec:
+  hosts:
+  - redhat.com
+  gateways:
+  - mesh
+  - ${NAMESPACE}/egress-gw
+  http:
+  - match:
+    - gateways:
+      - mesh
+      port: 80
+    route:
+    - destination:
+        host: istio-egressgateway.${NAMESPACE}.svc.cluster.local
+        subset: rh-docs
+        port:
+          number: 80
+      weight: 100
+  - match:
+    - gateways:
+      - ${NAMESPACE}/egress-gw
+      port: 80
+    route:
+    - destination:
+        host: redhat.com
+        port:
+          number: 80
+      weight: 100
