@@ -14,11 +14,11 @@ oc apply -n "$NAMESPACE" -f https://raw.githubusercontent.com/openshift-service-
 echo "Getting CURL_POD name..."
 export CURL_POD=$(oc get pod -n "$NAMESPACE" -l app=curl -o jsonpath='{.items[0].metadata.name}')
 echo "CURL_POD: $CURL_POD"
+oc rollout status deployment/curl -n "$NAMESPACE"
 
 # 3. Execute curl command from CURL_POD
 echo "Executing curl from CURL_POD to http://redhat.com..."
 oc exec "$CURL_POD" -n "$NAMESPACE" -c curl -- curl -sSL -o /dev/null -D - http://redhat.com
-oc rollout status deployment/curl -n "$NAMESPACE"
 
 # 4. Get logs from istio-egressgateway deployment
 echo "Fetching last 5 logs from istio-egressgateway deployment..."
