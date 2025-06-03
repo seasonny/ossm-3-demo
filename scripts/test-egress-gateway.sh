@@ -8,7 +8,7 @@ echo "Using namespace: $NAMESPACE"
 
 # 2. Apply curl.yaml
 echo "Applying curl.yaml to '$NAMESPACE' namespace..."
-oc apply -n "$NAMESPACE" -f https://raw.githubusercontent.com/openshift-service-mesh/istio/refs/heads/master/samples/curl/curl.yaml
+oc apply -n "$NAMESPACE" -f resources/tools/curl.yaml
 
 # 2. Get CURL_POD name
 echo "Getting CURL_POD name..."
