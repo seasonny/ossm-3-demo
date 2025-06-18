@@ -21,7 +21,7 @@ spec:
       outlierDetection:
         consecutive5xxErrors: 1
         interval: 1s
-        baseEjectionTime: 3m
+        baseEjectionTime: 30s
         maxEjectionPercent: 100
   - name: v3
     labels:

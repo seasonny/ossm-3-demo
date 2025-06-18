@@ -88,10 +88,11 @@ case "$choice" in
   6)
     cleanup_traffic_rules
     apply_yaml destination-rule-reviews.yaml
-    apply_yaml virtual-service-reviews-retries.yaml
+    apply_yaml virtual-service-reviews-fault-retry.yaml
     ;;
   7)
     cleanup_traffic_rules
+    apply_yaml virtual-service-reviews-fault-retry.yaml
     apply_yaml destination-rule-reviews-circuit-breaker.yaml
     ;;
   8)
