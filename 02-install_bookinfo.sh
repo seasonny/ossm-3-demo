@@ -37,4 +37,4 @@ printf "${BYellow}==============================================================
 printf "Ingress route for bookinfo is: ${BBlue}http://${INGRESSHOST}/productpage${NC}\n"
 printf "To test RestAPI: ${BBlue}sh ./scripts/test-api.sh${NC}\n"
 printf "Kiali route is: ${BBlue}https://${KIALI_HOST}${NC}\n"
-echo "${BYellow}====================================================================================================${NC}"
+printf "${BYellow}====================================================================================================${NC}"
