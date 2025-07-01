@@ -10,7 +10,7 @@ TRAFFIC_MGMT_DIR="resources/traffic-management"
 apply_yaml() {
   local file=$1
   echo "Applying $file..."
-  kubectl apply -n ${NAMESPACE} -f ${TRAFFIC_MGMT_DIR}/${file}
+  oc apply -n ${NAMESPACE} -f ${TRAFFIC_MGMT_DIR}/${file}
   if [ $? -eq 0 ]; then
     echo "Successfully applied $file."
   else
@@ -23,7 +23,7 @@ delete_resource() {
   local resource_type=$1
   local resource_name=$2
   echo "Deleting ${resource_type}/${resource_name}..."
-  kubectl delete -n ${NAMESPACE} ${resource_type} ${resource_name} --ignore-not-found
+  oc delete -n ${NAMESPACE} ${resource_type} ${resource_name} --ignore-not-found
   if [ $? -eq 0 ]; then
     echo "Successfully deleted ${resource_type}/${resource_name}."
   else
@@ -97,7 +97,7 @@ case "$choice" in
     ;;
   8)
     cleanup_traffic_rules
-    apply_yaml envoy-filter-rate-limit.yaml
+    apply_yaml envoy-filter-local-rate-limit.yaml
     ;;
   9)
     cleanup_traffic_rules
